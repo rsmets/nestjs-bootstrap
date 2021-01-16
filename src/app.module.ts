@@ -1,5 +1,11 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { CatsModule } from './cats/cats.module';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
 @Module({
   imports: [CatsModule],
@@ -27,4 +33,12 @@ import { CatsModule } from './cats/cats.module';
 
   // Other options too: factory providers, alias providers, non-service based providers. see the refs for docs.
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // consumer.apply(LoggerMiddleware).forRoutes('cats'); // only requests to the cat controller use the logger middleware ref: https://docs.nestjs.com/middleware#applying-middleware
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: 'cats', method: RequestMethod.GET }); // only GET requests to the cat controller use the logger middleware
+    // forRoutes({ path: 'ab*cd', method: RequestMethod.ALL }); can also use wildcards. ref: https://docs.nestjs.com/middleware#route-wildcards
+  }
+}
