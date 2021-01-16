@@ -10,6 +10,7 @@ import { Cat } from './interfaces/cat.interface';
   scope: Scope.DEFAULT,
 })
 // @Controller('cats')
+// @UseFilters(new HttpExceptionFilter()) // controller scope exception filter. ref: ref: https://docs.nestjs.com/exception-filters#binding-filters
 export class CatsController {
   /**
    * The CatsService is injected through the class constructor. Notice the use of the private syntax.
@@ -27,6 +28,13 @@ export class CatsController {
   async create(@Body() createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
+
+  // Using a exception handler filter. ref: https://docs.nestjs.com/exception-filters#binding-filters
+  // @Post()
+  // @UseFilters(new HttpExceptionFilter())
+  // async create(@Body() createCatDto: CreateCatDto) {
+  //   throw new ForbiddenException();
+  // }
 
   @Get()
   async findAll(): Promise<Cat[]> {
