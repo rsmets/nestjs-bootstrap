@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CatsController } from './cats/cats.controller';
-import { CatsService } from './cats/cats.service';
+import { CatsModule } from './cats/cats.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, CatsController],
-  providers: [AppService, CatsService], // this is associating the token `CatsService` with the class `CatsService`. ref: https://docs.nestjs.com/fundamentals/custom-providers#standard-providers
+  imports: [CatsModule],
+  // controllers: [AppController],
+  // providers: [AppService], // this is associating the token `CatsService` with the class `CatsService`. ref: https://docs.nestjs.com/fundamentals/custom-providers#standard-providers
   // providers: [
   //   {
   //     provide: CatsService,
