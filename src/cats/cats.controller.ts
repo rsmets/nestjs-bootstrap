@@ -30,6 +30,16 @@ export class CatsController {
 
   @Get()
   async findAll(): Promise<Cat[]> {
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN); // how to throw a standard exception ref: https://docs.nestjs.com/exception-filters
+
+    // throwing a exception with a custom message.
+    /**
+    throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'This is a custom message',
+    }, HttpStatus.FORBIDDEN);
+     */
+
     return this.catsService.findAll();
   }
 }
